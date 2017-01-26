@@ -19,9 +19,22 @@ def calcularServicio(tarifa,tiempoServicio):
     fin = tiempoServicio[1]
     #Frontera inferior: El tiempo minimo de servicio es de 15 minutos.
     
-    ## AQUI LOS ASSERT
+    try:
+    	assert((ini.day!=fin.day) or tiempoMin.seconds>=900)
+    except:
+    	print("Error, debe usar el servicio por más de 15 minutos\nEl programa terminará")
+    	sys.exit()
 
+    
+    try:
 
+    	#Frontera superior : El tiempo maximo de servicio es de 7 días.
+    	assert(tiempoMin.days<7 or (tiempoMin.days!=7 or tiempoMin.seconds==0))
+    except:
+    	print("Error, no puede usar el servicio por más de 7 días\nEl programa terminará")
+    	sys.exit()
+
+    
     #Transformamos las horas, minutos y segundos de diferencia
     minDif=(tiempoMin.seconds%3600)*60
     horDif=tiempoMin.seconds//3600
@@ -82,3 +95,13 @@ def calcularServicio(tarifa,tiempoServicio):
             hoy = hoy + timedelta(days=1)
             
     return servicio
+
+# Funcion que determina si un dia es fin
+# de semana o dia de semana.
+def esFinDeSemana(fecha):
+    dia=int(fecha.strftime("%w"))
+
+    if (dia == 6 or dia == 0):
+        return True
+    return False
+
